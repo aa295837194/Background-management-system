@@ -13,7 +13,22 @@ import {
     MenuItem,
     MenuItemGroup,
     Submenu,
-    Breadcrumb, BreadcrumbItem, Card, Col, Row, Table, TableColumn, Switch, Tooltip, Pagination, Dialog, MessageBox
+    Breadcrumb,
+    BreadcrumbItem,
+    Card,
+    Col,
+    Row,
+    Table,
+    TableColumn,
+    Switch,
+    Tooltip,
+    Pagination,
+    Dialog,
+    MessageBox,
+    Tag,
+    Tree,
+    Option,
+    Select
 } from 'element-ui'
 
 
@@ -42,6 +57,10 @@ Vue.use(Switch)
 Vue.use(Tooltip)
 Vue.use(Pagination)
 Vue.use(Dialog)
+Vue.use(Tag)
+Vue.use(Tree)
+Vue.use(Select)
+Vue.use(Option)
 
 
 

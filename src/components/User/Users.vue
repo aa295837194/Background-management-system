@@ -110,13 +110,34 @@
                     <el-button type="primary" icon="el-icon-edit" @click="editUser(scope.row.id)"></el-button>
                     <el-button type="danger" icon="el-icon-delete" @click="DeleteUser(scope.row.id)"></el-button>
                     <el-tooltip class="item" effect="dark" content="分配角色" placement="top">
-                        <el-button type="warning" icon="el-icon-setting"></el-button>
+                        <el-button type="warning" icon="el-icon-setting" @click="setUserRights(scope.row)"></el-button>
                     </el-tooltip>
                 </template>
 
 
             </el-table-column>
         </el-table>
+        <el-dialog
+                title='分配角色'
+                :visible.sync="SetdialogVisible"
+                width="50%"
+                >
+            <p>用户名：{{userInfo.username}}</p>
+            <p>角色：{{userInfo.role_name}}</p>
+            <p>分配角色：<el-select v-model="SelectedRole" placeholder="请选择">
+
+                <el-option
+                        v-for="item in rolelist"
+                        :key="item.id"
+                        :label="item.roleName"
+                        :value="item.id">
+                </el-option>
+            </el-select></p>
+            <span slot="footer" class="dialog-footer">
+    <el-button @click="SetdialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="submitRights">确 定</el-button>
+  </span>
+        </el-dialog>
         <el-pagination
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
@@ -158,6 +179,7 @@
                   pagenum:1,
                   pagesize:2,
               },
+                SelectedRole:'',
                 userList:[],
                 total:0,
                 dialogVisible:false,
@@ -190,11 +212,15 @@
                         {validator:checkEmail,trigger: 'blur'}],
                     mobile:[{required:true,message:'请输入手机',trigger:'blur'},
                         {validator:checkTel,trigger:'blur'}]
-                }
+                },
+                rolelist:[],
+                userInfo:'',
+                SetdialogVisible:false,
             }
         },
         created() {
             this.getUserList()
+
         },
         methods:{
             async getUserList(){
@@ -284,6 +310,30 @@
                 else{
                     this.$message.info('已取消删除')
                 }
+            },
+
+            async setUserRights(role){
+                const {data: res} = await this.$http.get('roles')
+                if (res.meta.status !== 200) return this.$message.error('获取角色列表失败')
+                this.rolelist = res.data;
+                console.log(this.rolelist)
+                this.SetdialogVisible=true;
+
+                this.userInfo=role
+
+
+            },
+            async submitRights(){
+                if (!this.SelectedRole){
+                    return this.$message.error('请选择分配的角色')
+                }
+                console.log(this.userInfo.id)
+                const{data:res}=await this.$http.put(  `users/${this.userInfo.id}/role`,{rid:this.SelectedRole})
+                console.log(res)
+                if(res.meta.status!==200) return this.$message.error('分配用户角色失败')
+                this.$message.success('分配用户角色成功')
+                this.getUserList();
+                this.SetdialogVisible=false;
             }
         }
     }
