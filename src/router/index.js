@@ -7,6 +7,11 @@ import Users from '../components/User/Users'
 import Rights from "../components/Power/Rights";
 import Roles from "../components/Power/Roles";
 import goodsCate from "../components/goods/goodsCate";
+import order from "../components/order/order";
+import goodsList from "../components/goods/goodsList";
+import addGood from "../components/goods/addGood";
+import cateParams from "../components/goods/cateParams";
+import report from "../components/report/report";
 Vue.use(VueRouter)
 
 const routes = [
@@ -17,7 +22,12 @@ const routes = [
       {path:'/users',component: Users},
           {path:'/rights',component: Rights},
           {path:'/roles',component: Roles},
-          {path:'/categories',component: goodsCate}
+          {path:'/categories',component: goodsCate},
+          {path:'/orders',component: order},
+          {path:'/goods',component: goodsList},
+          {path:'/goods/addGood',component: addGood},
+          {path:'/params',component: cateParams},
+          {path: '/reports',component: report}
 
       ]}
 ]
