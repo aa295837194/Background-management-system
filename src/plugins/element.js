@@ -63,6 +63,6 @@ Vue.use(Select)
 Vue.use(Option)
 Vue.use(Cascader)
 
-
+gi
 Vue.prototype.$message=Message;
 Vue.prototype.$confirm=MessageBox.confirm;
